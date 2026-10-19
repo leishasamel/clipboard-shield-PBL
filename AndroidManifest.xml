@@ -1,0 +1,13 @@
+<!-- Allows drawing prompts over other apps -->
+<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+
+<!-- Registers the notification interception service -->
+<service android:name=".NotificationService"
+         android:label="Clipboard Shield Listener"
+         android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+         android:exported="true">
+    <intent-filter>
+        <action android:name="android.service.notification.NotificationListenerService" />
+    </intent-filter>
+</service>
