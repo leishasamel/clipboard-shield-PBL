@@ -13,16 +13,16 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up Java JDK 17
+      - name: Set up Java JDK
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Gradle 8.5
-        uses: gradle/actions/setup-gradle@v3
-        with:
-          gradle-version: '8.5'
+      - name: Install & Setup Gradle
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gradle
 
       - name: Build Debug APK
         run: gradle :app:assembleDebug --stacktrace
