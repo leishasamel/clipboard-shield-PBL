@@ -1,48 +1,35 @@
-public package com.clipboardshield.app;
+package com.clipboardshield.app;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 public class LoginActivity extends Activity {
+
+    private static final String FRONTEND_URL = "http://192.168.0.106:8080/index.html";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
 
-        LinearLayout layout = new LinearLayout(this);
-        layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setPadding(50, 50, 50, 50);
+        WebView webView = findViewById(R.id.webView);
+        WebSettings webSettings = webView.getSettings();
 
-        TextView title = new TextView(this);
-        title.setText("C-Shield Login");
-        title.setTextSize(24);
-        title.setPadding(0, 0, 0, 40);
+        // Enable JavaScript, DOM storage, and local asset support
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setDomStorageEnabled(true);
+        webSettings.setDatabaseEnabled(true);
+        webSettings.setAllowFileAccess(true);
+        webSettings.setAllowContentAccess(true);
+        webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
-        EditText username = new EditText(this);
-        username.setHint("Username");
+        // Keep navigation inside WebView instead of launching external browser
+        webView.setWebViewClient(new WebViewClient());
 
-        EditText password = new EditText(this);
-        password.setHint("Password");
-        password.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
-
-        Button loginBtn = new Button(this);
-        loginBtn.setText("Login");
-        loginBtn.setOnClickListener(v -> {
-            Toast.makeText(this, "Login successful. C-Shield is active in background.", Toast.LENGTH_SHORT).show();
-        });
-
-        layout.addView(title);
-        layout.addView(username);
-        layout.addView(password);
-        layout.addView(loginBtn);
-
-        setContentView(layout);
+        // Load the frontend from your PC server
+        webView.loadUrl(FRONTEND_URL);
     }
-} {
-    
 }
