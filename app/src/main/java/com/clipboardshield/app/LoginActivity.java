@@ -8,28 +8,23 @@ import android.webkit.WebViewClient;
 
 public class LoginActivity extends Activity {
 
-    private static final String FRONTEND_URL = "http://192.168.0.106:8080/index.html";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
-        WebView webView = findViewById(R.id.webView);
-        WebSettings webSettings = webView.getSettings();
-
-        // Enable JavaScript, DOM storage, and local asset support
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setDomStorageEnabled(true);
-        webSettings.setDatabaseEnabled(true);
-        webSettings.setAllowFileAccess(true);
-        webSettings.setAllowContentAccess(true);
-        webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-
-        // Keep navigation inside WebView instead of launching external browser
+        
+        WebView webView = new WebView(this);
+        WebSettings settings = webView.getSettings();
+        
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setAllowFileAccess(true);
+        settings.setAllowContentAccess(true);
+        
         webView.setWebViewClient(new WebViewClient());
-
-        // Load the frontend from your PC server
-        webView.loadUrl(FRONTEND_URL);
+        
+        // Loads the HTML file directly from inside the app assets
+        webView.loadUrl("file:///android_asset/index.html");
+        
+        setContentView(webView);
     }
 }

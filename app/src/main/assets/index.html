@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C-Shield | Executive Clipboard Protection</title>
+    <!-- High-Fashion Luxury Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --gold-primary: #D4AF37;
+            --gold-light: #FBF5B7;
+            --gold-deep: #AA771C;
+            --gold-glow: rgba(212, 175, 55, 0.45);
+            --blackout: #0A0908;
+            --text-dark: #1E1B18;
+            --font-brand: 'Cormorant Garamond', serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            font-family: var(--font-body);
+            cursor: none; /* Custom Orbital Golden Ripple Cursor */
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: var(--blackout);
+            color: var(--text-dark);
+        }
+
+        /* ----------------------------------
+           DYNAMIC PASTEL MESH BACKGROUND
+        ----------------------------------- */
+        #dynamic-spectrum-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            background: linear-gradient(135deg, 
+                #FFF0F5, /* Blush Pink */
+                #FFEEE4, /* Soft Peach */
+                #FFF8E7, /* Warm Gold Champagne */
+                #E0F7FA, /* Seafoam Sky Blue */
+                #FDF0ED, /* Pearl Cream */
+                #FFF5EA  /* Sunrise Amber */
+            );
+            background-size: 400% 400%;
+            animation: gradientSpectrumShift 20s ease infinite;
+        }
+
+        @keyframes gradientSpectrumShift {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 50% 100%; }
+            50% { background-position: 100% 50%; }
+            75% { background-position: 50% 0%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Canvas for Thin Golden Concentric Circles & Radiating Rays */
+        #circles-rays-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* ----------------------------------
+           CUSTOM ORBITAL RIPPLE CURSOR
+        ----------------------------------- */
+        #cursor-core {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 8px;
+            background: var(--gold-light);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 12px #FFFFFF, 0 0 20px var(--gold-primary);
+        }
+
+        #cursor-ring-1 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 32px;
+            height: 32px;
+            border: 1.5px solid var(--gold-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: transform 0.06s ease-out;
+        }
+
+        #cursor-ring-2 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 54px;
+            height: 54px;
+            border: 1px dashed rgba(212, 175, 55, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9997;
+            transform: translate(-50%, -50%);
+            transition: transform 0.12s ease-out;
+            animation: rotateCursorRing 8s linear infinite;
+        }
+
+        @keyframes rotateCursorRing {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .cursor-ripple {
+            position: fixed;
+            border: 1.5px solid var(--gold-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9996;
+            transform: translate(-50%, -50%);
+            animation: rippleExpand 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+        }
+
+        @keyframes rippleExpand {
+            0% { width: 10px; height: 10px; opacity: 0.9; }
+            100% { width: 80px; height: 80px; opacity: 0; }
+        }
+
+        /* ----------------------------------
+           BLACKOUT & GOLDEN CURTAIN INTRO
+        ----------------------------------- */
+        .curtain-panel {
+            position: fixed;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            background: var(--blackout);
+            z-index: 100;
+            transition: transform 1.3s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        #curtain-left { 
+            left: 0; 
+            border-right: 2px solid var(--gold-primary);
+        }
+        
+        #curtain-right { 
+            right: 0; 
+            border-left: 2px solid var(--gold-primary);
+        }
+
+        #splash-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 101;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            pointer-events: none;
+            transition: opacity 0.6s ease;
+        }
+
+        .shell-pearl-wrapper {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pearl-element {
+            position: absolute;
+            width: 52px;
+            height: 52px;
+            background: radial-gradient(circle at 35% 35%, #FFFFFF 0%, #FBF5B7 45%, #D4AF37 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 1), 0 0 60px rgba(212, 175, 55, 0.9);
+            animation: pearlPulse 2.5s infinite alternate ease-in-out;
+        }
+
+        @keyframes pearlPulse {
+            0% { transform: scale(0.95); }
+            100% { transform: scale(1.08); box-shadow: 0 0 50px rgba(255, 255, 255, 1), 0 0 75px rgba(212, 175, 55, 1); }
+        }
+
+        #brand-flash {
+            font-family: var(--font-brand);
+            font-style: italic;
+            font-size: 3.8rem;
+            font-weight: 700;
+            letter-spacing: 6px;
+            background: linear-gradient(135deg, #FFF, #FBF5B7, #D4AF37, #AA771C);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-top: 18px;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: all 0.8s ease;
+        }
+
+        #brand-flash.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ----------------------------------
+           CIRCULAR AUTHENTICATION DISPLAY
+        ----------------------------------- */
+        #login-view {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 1s ease 0.4s, transform 1s ease 0.4s;
+            pointer-events: none;
+        }
+
+        #login-view.active {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: all;
+        }
+
+        .circular-login-card {
+            position: relative;
+            width: 540px;
+            height: 540px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 3.5px solid var(--gold-deep);
+            box-shadow: 0 0 0 12px rgba(212, 175, 55, 0.2), 0 25px 60px rgba(170, 119, 28, 0.25), 0 0 40px var(--gold-glow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 50px;
+            text-align: center;
+        }
+
+        .circular-login-card::before {
+            content: '';
+            position: absolute;
+            top: -18px; left: -18px; right: -18px; bottom: -18px;
+            border-radius: 50%;
+            border: 1.5px dashed var(--gold-primary);
+            pointer-events: none;
+            animation: rotateOuterRing 40s linear infinite;
+        }
+
+        @keyframes rotateOuterRing {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .login-header h2 {
+            font-family: var(--font-brand);
+            font-style: italic;
+            font-size: 3rem;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, #1E1B18, #AA771C, #D4AF37);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2px;
+        }
+
+        .login-header p {
+            font-size: 0.82rem;
+            color: #6B6255;
+            margin-bottom: 22px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .btn-google {
+            width: 82%;
+            background: #FFFFFF;
+            border: 1.5px solid rgba(212, 175, 55, 0.4);
+            border-radius: 30px;
+            padding: 12px;
+            color: #1E1B18;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        }
+
+        .btn-google:hover {
+            border-color: var(--gold-primary);
+            box-shadow: 0 6px 20px var(--gold-glow);
+            transform: translateY(-1px);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            width: 80%;
+            text-align: center;
+            color: #A39788;
+            font-size: 0.75rem;
+            margin-bottom: 18px;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .divider::before { margin-right: 10px; }
+        .divider::after { margin-left: 10px; }
+
+        form {
+            width: 82%;
+        }
+
+        .input-group {
+            margin-bottom: 14px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--gold-deep);
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .input-group input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1.5px solid rgba(212, 175, 55, 0.4);
+            border-radius: 20px;
+            padding: 12px 18px;
+            color: #1E1B18;
+            font-size: 0.92rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 15px var(--gold-glow);
+            background: #FFFFFF;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, #D4AF37, #AA771C);
+            border: none;
+            border-radius: 25px;
+            padding: 14px;
+            color: #FFFFFF;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(170, 119, 28, 0.25);
+            margin-top: 6px;
+        }
+
+        .btn-submit:hover {
+            background: linear-gradient(135deg, #AA771C, #D4AF37);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.45);
+            transform: translateY(-1px);
+        }
+
+        /* ----------------------------------
+           EXECUTIVE DASHBOARD VIEW
+        ----------------------------------- */
+        #dashboard-view {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100vh;
+            padding: 40px;
+            display: none;
+            flex-direction: column;
+            gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        #dashboard-view.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .dash-header {
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1.5px solid var(--gold-primary);
+            border-radius: 20px;
+            padding: 24px 36px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 10px 30px rgba(170, 119, 28, 0.08);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FBF5B7, #D4AF37);
+            border: 2px solid var(--gold-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #1E1B18;
+            box-shadow: 0 4px 12px var(--gold-glow);
+        }
+
+        .user-info h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1E1B18;
+        }
+
+        .user-info p {
+            font-size: 0.82rem;
+            color: var(--gold-deep);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .shield-control {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 12px 24px;
+            border-radius: 50px;
+            border: 1.5px solid rgba(212, 175, 55, 0.4);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        }
+
+        .shield-icon-mini {
+            width: 36px;
+            height: 36px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pearl-mini {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #FFFFFF;
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--gold-primary);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 68px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(30, 27, 24, 0.12);
+            transition: .4s;
+            border-radius: 34px;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 24px;
+            width: 24px;
+            left: 4px;
+            bottom: 4px;
+            background-color: #FFFFFF;
+            transition: .4s;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+        }
+
+        input:checked + .slider {
+            background-color: var(--gold-primary);
+            box-shadow: 0 0 15px var(--gold-glow);
+            border-color: var(--gold-primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(34px);
+            background-color: #1E1B18;
+        }
+
+        .shield-status-label {
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 1.5px;
+            min-width: 45px;
+            color: #DC2626;
+            transition: color 0.3s ease;
+        }
+
+        .shield-status-label.active {
+            color: var(--gold-deep);
+        }
+
+        .log-section {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1.5px solid rgba(212, 175, 55, 0.4);
+            border-radius: 24px;
+            padding: 36px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 15px 35px rgba(170, 119, 28, 0.08);
+        }
+
+        .log-header h4 {
+            font-family: var(--font-brand);
+            font-style: italic;
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            color: #1E1B18;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+        }
+
+        .log-table-container {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .log-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .log-table th {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--gold-deep);
+            padding: 14px 20px;
+            border-bottom: 1.5px solid rgba(212, 175, 55, 0.3);
+            font-weight: 700;
+        }
+
+        .empty-log-state {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #8C8275;
+            gap: 16px;
+            padding: 60px 0;
+        }
+
+        .empty-log-state svg {
+            width: 64px;
+            height: 64px;
+            stroke: rgba(212, 175, 55, 0.5);
+        }
+
+        .empty-log-state p {
+            font-size: 1rem;
+            letter-spacing: 1px;
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Custom Orbital Golden Ripple Cursor -->
+    <div id="cursor-core"></div>
+    <div id="cursor-ring-1"></div>
+    <div id="cursor-ring-2"></div>
+
+    <!-- Dynamic Pastel Spectrum Background -->
+    <div id="dynamic-spectrum-bg"></div>
+
+    <!-- Canvas Engine for Golden Concentric Circles & Radiating Rays -->
+    <canvas id="circles-rays-canvas"></canvas>
+
+    <!-- Blackout & Golden Curtain Intro -->
+    <div id="curtain-left" class="curtain-panel"></div>
+    <div id="curtain-right" class="curtain-panel"></div>
+
+    <div id="splash-container">
+        <div class="shell-pearl-wrapper">
+            <svg class="shell-svg" width="100%" height="100%" viewBox="0 0 100 100" fill="none">
+                <path d="M50 15C30 15 15 35 15 55C15 75 32 85 50 85C68 85 85 75 85 55C85 35 70 15 50 15Z" fill="url(#shell-grad)" stroke="#D4AF37" stroke-width="2"/>
+                <path d="M50 15 C40 40, 30 65, 50 85" stroke="#D4AF37" stroke-width="1" opacity="0.6"/>
+                <path d="M50 15 C60 40, 70 65, 50 85" stroke="#D4AF37" stroke-width="1" opacity="0.6"/>
+                <path d="M50 15 C25 35, 20 65, 50 85" stroke="#D4AF37" stroke-width="1" opacity="0.4"/>
+                <path d="M50 15 C75 35, 80 65, 50 85" stroke="#D4AF37" stroke-width="1" opacity="0.4"/>
+                <defs>
+                    <linearGradient id="shell-grad" x1="15" y1="15" x2="85" y2="85" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#FFFFFF"/>
+                        <stop offset="50%" stop-color="#FFF5EA"/>
+                        <stop offset="100%" stop-color="#FBF5B7"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+            <div class="pearl-element"></div>
+        </div>
+        <div id="brand-flash">C-SHIELD</div>
+    </div>
+
+    <!-- Circular Authentication Display -->
+    <section id="login-view">
+        <div class="circular-login-card">
+            <div class="login-header">
+                <h2>C-Shield</h2>
+                <p>Enterprise Clipboard Security</p>
+            </div>
+
+            <button class="btn-google interactive" onclick="handleLogin()">
+                <svg width="18" height="18" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                </svg>
+                Sign in with Google
+            </button>
+
+            <div class="divider">or continue with email</div>
+
+            <form onsubmit="event.preventDefault(); handleLogin();">
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" class="interactive" placeholder="name@company.com" required>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" class="interactive" placeholder="••••••••••••" required>
+                </div>
+                <button type="submit" class="btn-submit interactive">AUTHENTICATE</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Executive Dashboard -->
+    <main id="dashboard-view">
+        <header class="dash-header">
+            <div class="user-profile">
+                <div class="user-avatar">U</div>
+                <div class="user-info">
+                    <h3>Name of the User</h3>
+                    <p>Protected Session</p>
+                </div>
+            </div>
+
+            <div class="shield-control">
+                <div class="shield-icon-mini">
+                    <svg viewBox="0 0 100 100" fill="none">
+                        <path d="M50 15C30 15 15 35 15 55C15 75 32 85 50 85C68 85 85 75 85 55C85 35 70 15 50 15Z" fill="#FBF5B7" stroke="#D4AF37" stroke-width="3"/>
+                    </svg>
+                    <div class="pearl-mini"></div>
+                </div>
+
+                <label class="switch interactive">
+                    <input type="checkbox" id="shieldToggle" checked onchange="toggleShieldState(this)">
+                    <span class="slider"></span>
+                </label>
+                <span id="statusLabel" class="shield-status-label active">ON</span>
+            </div>
+        </header>
+
+        <section class="log-section">
+            <div class="log-header">
+                <h4>Transaction Logs</h4>
+            </div>
+
+            <div class="log-table-container">
+                <table class="log-table">
+                    <thead>
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Merchant / Origin</th>
+                            <th>Locked Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                </table>
+
+                <div class="empty-log-state">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m0 3.008H12M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                    <p>No transaction logs recorded yet.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        /* ----------------------------------
+           CUSTOM ORBITAL RIPPLE CURSOR ENGINE
+        ----------------------------------- */
+        const cursorCore = document.getElementById('cursor-core');
+        const cursorRing1 = document.getElementById('cursor-ring-1');
+        const cursorRing2 = document.getElementById('cursor-ring-2');
+
+        let lastX = 0;
+        let lastY = 0;
+
+        window.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+
+            cursorCore.style.left = `${x}px`;
+            cursorCore.style.top = `${y}px`;
+
+            cursorRing1.style.left = `${x}px`;
+            cursorRing1.style.top = `${y}px`;
+
+            cursorRing2.style.left = `${x}px`;
+            cursorRing2.style.top = `${y}px`;
+
+            // Spawn Golden Ripple Effect on Distance Traveled
+            const dist = Math.hypot(x - lastX, y - lastY);
+            if (dist > 35) {
+                createRipple(x, y);
+                lastX = x;
+                lastY = y;
+            }
+        });
+
+        function createRipple(x, y) {
+            const ripple = document.createElement('div');
+            ripple.className = 'cursor-ripple';
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            document.body.appendChild(ripple);
+
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        }
+
+        /* ----------------------------------
+           CONCENTRIC CIRCLES & RADIATING RAYS ENGINE
+        ----------------------------------- */
+        const canvas = document.getElementById('circles-rays-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        let angleOffset = 0;
+
+        function drawBackgroundCircles() {
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const maxRadius = Math.hypot(canvas.width, canvas.height) / 1.5;
+            const ringSpacing = 45;
+
+            ctx.lineWidth = 1;
+
+            for (let r = 30; r < maxRadius; r += ringSpacing) {
+                ctx.strokeStyle = `rgba(212, 175, 55, ${Math.max(0.04, 0.22 - r / maxRadius)})`;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, r, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+        }
+
+        function drawRadiatingRays() {
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const rayCount = 36; // Number of radiating rays
+            const innerRadius = 270; // Radius starting just outside the login circle
+            const outerRadius = Math.hypot(canvas.width, canvas.height) / 1.2;
+
+            angleOffset += 0.0015; // Slow rotation speed
+
+            for (let i = 0; i < rayCount; i++) {
+                const angle = (i * (Math.PI * 2 / rayCount)) + angleOffset;
+                
+                // Pulsing opacity effect for individual rays
+                const pulseOpacity = 0.12 + Math.sin(angleOffset * 4 + i) * 0.08;
+
+                const startX = centerX + Math.cos(angle) * innerRadius;
+                const startY = centerY + Math.sin(angle) * innerRadius;
+
+                const endX = centerX + Math.cos(angle) * outerRadius;
+                const endY = centerY + Math.sin(angle) * outerRadius;
+
+                const gradient = ctx.createLinearGradient(startX, startY, endX, endY);
+                gradient.addColorStop(0, `rgba(212, 175, 55, ${pulseOpacity + 0.15})`);
+                gradient.addColorStop(0.6, `rgba(212, 175, 55, ${pulseOpacity})`);
+                gradient.addColorStop(1, 'rgba(212, 175, 55, 0)');
+
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = i % 2 === 0 ? 1.5 : 0.8; // Alternating ray line thickness
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(endX, endY);
+                ctx.stroke();
+            }
+        }
+
+        function renderCanvasEngine() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw Background Golden Geometry Circles
+            drawBackgroundCircles();
+
+            // Draw Radiating Golden Lines Emerging from Center
+            drawRadiatingRays();
+
+            requestAnimationFrame(renderCanvasEngine);
+        }
+        renderCanvasEngine();
+
+        /* ----------------------------------
+           INTRO TIMELINE ANIMATION
+        ----------------------------------- */
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.getElementById('brand-flash').classList.add('active');
+            }, 800);
+
+            setTimeout(() => {
+                document.getElementById('splash-container').style.opacity = '0';
+                document.getElementById('curtain-left').style.transform = 'translateX(-100%)';
+                document.getElementById('curtain-right').style.transform = 'translateX(100%)';
+                
+                document.getElementById('login-view').classList.add('active');
+            }, 2200);
+        });
+
+        /* ----------------------------------
+           VIEW TRANSITION HANDLERS
+        ----------------------------------- */
+        function handleLogin() {
+            const loginView = document.getElementById('login-view');
+            const dashView = document.getElementById('dashboard-view');
+
+            loginView.style.opacity = '0';
+            loginView.style.transform = 'scale(0.95)';
+
+            setTimeout(() => {
+                loginView.style.display = 'none';
+                dashView.classList.add('active');
+            }, 600);
+        }
+
+        function toggleShieldState(checkbox) {
+            const label = document.getElementById('statusLabel');
+            if (checkbox.checked) {
+                label.textContent = "ON";
+                label.classList.add('active');
+            } else {
+                label.textContent = "OFF";
+                label.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>
