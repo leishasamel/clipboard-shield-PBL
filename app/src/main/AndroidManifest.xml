@@ -3,6 +3,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:allowBackup="true"
@@ -11,6 +12,7 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true">
 
+        <!-- Entry point launcher activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -20,11 +22,18 @@
             </intent-filter>
         </activity>
 
+        <!-- Custom Login Activity -->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+
+        <!-- Floating Overlay Pop-up -->
         <activity
             android:name=".FloatingOverlayActivity"
             android:exported="false"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
+        <!-- Background Notification Listener -->
         <service
             android:name=".NotificationService"
             android:exported="true"
