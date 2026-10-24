@@ -1,28 +1,35 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.clipboardshield.app">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" />
 
     <application
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
-        android:label="Clipboard Shield">
+        android:label="Clipboard Shield"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true">
+
+        <!-- Main Launcher Activity -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <!-- Floating Overlay Activity -->
-        <activity 
+        <activity
             android:name=".FloatingOverlayActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <!-- Notification Interception Service -->
-        <service 
+        <!-- Background Notification Listener -->
+        <service
             android:name=".NotificationService"
-            android:label="Clipboard Shield Listener"
-            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
-            android:exported="true">
+            android:exported="true"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
