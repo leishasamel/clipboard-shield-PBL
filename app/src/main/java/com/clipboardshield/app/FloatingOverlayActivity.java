@@ -27,37 +27,33 @@ public class FloatingOverlayActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overlay);
 
-        String alertText = getIntent().getStringExtra("ALERT_MSG");
         TextView msgText = findViewById(R.id.overlay_message);
-        msgText.setText(alertText);
-
         Button btnApprove = findViewById(R.id.btn_approve);
         Button btnCancel = findViewById(R.id.btn_cancel);
 
+        // Retrieve message sent from NotificationService
+        String notificationText = getIntent().getStringExtra("notification_text");
+        if (notificationText != null) {
+            msgText.setText(notificationText);
+        }
+
         btnApprove.setOnClickListener(v -> {
-            sendAuthorizationToBackend("APPROVED", alertText);
-            Toast.makeText(this, "Transaction Approved", Toast.LENGTH_SHORT).show();
+            sendDecisionToBackend("APPROVED", notificationText);
             finish();
         });
 
         btnCancel.setOnClickListener(v -> {
-            sendAuthorizationToBackend("CANCELLED", alertText);
-            Toast.makeText(this, "Transaction Cancelled", Toast.LENGTH_SHORT).show();
+            sendDecisionToBackend("CANCELLED", notificationText);
             finish();
         });
     }
 
-    private void sendAuthorizationToBackend(String status, String details) {
+    private void sendDecisionToBackend(String decision, String message) {
         OkHttpClient client = new OkHttpClient();
+        MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
-        String jsonPayload = "{"
-                + "\"deviceId\":\"Android_Device_01\","
-                + "\"status\":\"" + status + "\","
-                + "\"details\":\"" + (details != null ? details.replace("\"", "'") : "") + "\""
-                + "}";
-
-        RequestBody body = RequestBody.create(
-                jsonPayload, MediaType.parse("application/json; charset=utf-8"));
+        String jsonPayload = String.format("{\"decision\":\"%s\", \"message\":\"%s\"}", decision, message != null ? message : "");
+        RequestBody body = RequestBody.create(jsonPayload, JSON);
 
         Request request = new Request.Builder()
                 .url(BACKEND_URL)
@@ -67,14 +63,17 @@ public class FloatingOverlayActivity extends Activity {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "Failed to reach backend server", e);
+                Log.e(TAG, "Failed to send decision to backend", e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    Log.d(TAG, "Successfully logged transaction authorization with backend!");
+                    Log.d(TAG, "Backend responded successfully");
+                } else {
+                    Log.e(TAG, "Backend returned error: " + response.code());
                 }
+                response.close();
             }
         });
     }
